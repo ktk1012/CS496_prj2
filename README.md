@@ -3,4 +3,4 @@ CS496 project2
 
 Make server - client interaction.
 
-Server stack: Node.js + Loopback.io + Mongodb
+Server stack: Node.js(v6.2.2) + Loopback.io + Mongodb
