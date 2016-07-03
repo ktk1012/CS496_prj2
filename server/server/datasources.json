@@ -2,5 +2,11 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "maindb": {
+    "host": "127.0.0.1",
+    "name": "maindb",
+    "connector": "mongodb",
+    "database": "cs496_db"
   }
 }
