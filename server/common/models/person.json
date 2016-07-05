@@ -1,0 +1,30 @@
+{
+  "name": "Person",
+  "plural": "persons",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "fb_uid": {
+      "type": "string",
+      "required": true
+    },
+    "graph_uid": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "fblogin"
+    }
+  ],
+  "methods": {}
+}

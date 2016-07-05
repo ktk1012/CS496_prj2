@@ -5,8 +5,8 @@
   },
   "maindb": {
     "host": "127.0.0.1",
+    "database": "cs496_db",
     "name": "maindb",
-    "connector": "mongodb",
-    "database": "cs496_db"
+    "connector": "mongodb"
   }
 }
