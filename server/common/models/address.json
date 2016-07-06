@@ -23,6 +23,11 @@
     "owner": {
       "type": "string",
       "required": true
+    },
+    "removed": {
+      "type": "boolean",
+      "required": true,
+      "default": false
     }
   },
   "validations": [],

@@ -39,5 +39,17 @@
   "Address": {
     "dataSource": "maindb",
     "public": true
+  },
+  "container": {
+    "dataSource": "s3storage",
+    "public": true
+  },
+  "file": {
+    "dataSource": "maindb",
+    "public": true
+  },
+  "image": {
+    "dataSource": "maindb",
+    "public": true
   }
 }

@@ -8,6 +8,7 @@
     "posttest": "nsp check"
   },
   "dependencies": {
+    "aws-sdk": "^2.4.5",
     "bluebird": "^3.4.1",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
@@ -16,8 +17,10 @@
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.4.0",
     "loopback-component-oauth2": "^2.4.1",
+    "loopback-component-storage": "^1.8.1",
     "loopback-connector-mongodb": "^1.15.2",
     "serve-favicon": "^2.0.1",
+    "storage": "^0.2.0",
     "strong-error-handler": "^1.0.1"
   },
   "devDependencies": {
