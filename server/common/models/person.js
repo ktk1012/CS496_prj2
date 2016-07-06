@@ -2,6 +2,9 @@ var graph = require('fbgraph');
 var Promise = require('bluebird');
 Promise.promisifyAll(graph);
 
+var app = require('../../server/server');
+
+
 module.exports = function(Person) {
   'use strict';
   Person.fblogin = function(tokenid, fb_uid, cb) {
@@ -11,12 +14,9 @@ module.exports = function(Person) {
     graph.setAccessToken(tokenid);
     graph.getAsync("/me", fields).then(function (res, err) {
       if (err) {
-        console.log(err);
-        console.log("error??");
         throw err;
       }
       info = res;
-      console.log(res);
       var query = {
         fb_uid: fb_uid,
         graph_uid: res.id
@@ -45,8 +45,16 @@ module.exports = function(Person) {
           }
           cb(null, token);
         });
+      } else {
+        person.createAccessToken(undefined, tokenid, function(err, token) {
+          if(err) {
+            cb(err);
+          }
+          cb(null, token);
+        });
       }
     }).catch(function(err) {
+      cb("errror :(");
       cb(err);
     });
   };

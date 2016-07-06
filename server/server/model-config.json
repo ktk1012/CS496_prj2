@@ -31,5 +31,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Person": {
+    "dataSource": "maindb",
+    "public": true
+  },
+  "Address": {
+    "dataSource": "maindb",
+    "public": true
   }
 }

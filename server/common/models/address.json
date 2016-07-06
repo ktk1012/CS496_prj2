@@ -7,7 +7,20 @@
     "validateUpsert": true
   },
   "properties": {
-    "number": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "picture": {
+      "type": "string"
+    },
+    "phone_num": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "owner": {
       "type": "string",
       "required": true
     }
