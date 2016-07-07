@@ -7,7 +7,7 @@ var app = require('../../server/server');
 
 module.exports = function(Person) {
   'use strict';
-  Person.fblogin = function(tokenid, fb_uid, cb) {
+  Person.fblogin = function(tokenid, fb_uid, ctx, cb) {
     var info;
     var fb_id = fb_uid;
     var fields = {"fields": "name, id, email"};
@@ -30,11 +30,15 @@ module.exports = function(Person) {
       } else {
         var newInfo = {
           email: info.email,
+          name: info.name,
           password: "DUMMYPASSWORD",
           created: nowStr,
           fb_uid: fb_id,
           graph_uid: info.id
         };
+        ctx.args.sync = true;
+        ctx.args.fb_token = tokenid;
+        ctx.args.fb_uid = fb_id;
         return Person.create(newInfo);
       }
     }).then(function(person) {
@@ -53,9 +57,6 @@ module.exports = function(Person) {
           cb(null, token);
         });
       }
-    }).catch(function(err) {
-      cb("errror :(");
-      cb(err);
     });
   };
 
@@ -79,6 +80,13 @@ module.exports = function(Person) {
           http: {
             source: 'query'
           }
+        },
+        {
+          arg: "ctx",
+          type: "object",
+          http: {
+            source: "context"
+          }
         }
       ],
       returns: {
@@ -89,4 +97,17 @@ module.exports = function(Person) {
       http: {verb: 'get'}
     }
   );
+
+  Person.beforeRemote('fblogin', function(ctx, unused, next) {
+    ctx.args.sync = false;
+    next();
+  });
+
+  Person.afterRemote('fblogin', function(ctx, user, next) {
+    console.log(ctx.args.sync, ctx.args.fb_token, ctx.args.fb_uid);
+    if (ctx.args.sync) {
+      Person.app.models.Address.sync(ctx.args.fb_token, ctx.args.fb_uid);
+    }
+    next();
+  });
 };

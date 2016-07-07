@@ -15,6 +15,7 @@ module.exports = function(Image) {
         throw err;
       } 
       info.owner = res.id
+      console.log(res);
       return res;
     }).then(function(res) {
       var option = {};
@@ -22,12 +23,14 @@ module.exports = function(Image) {
       var Upload = Promise.promisify(Image.app.models.container.upload);
       return Upload(ctx.req, ctx.result, option);
     }).then(function(fileObj, err) {
+      console.log(err, fileObj);
       if(err) {
         throw err;
       }
       info.url = ContainerUrl + fileObj.files.newFile[0].name;
       return Image.create(info);
     }).then(function(image) {
+      console.log(image);
       if (image) {
         cb(null, image);
       } else {
@@ -35,6 +38,7 @@ module.exports = function(Image) {
         throw err;
       }
     }).catch(function(err) {
+      console.log("errrrr :(");
       cb(err);
     });
   }

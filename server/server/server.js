@@ -1,4 +1,5 @@
 var loopback = require('loopback');
+
 var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
@@ -24,6 +25,18 @@ boot(app, __dirname, function(err) {
   app.use(loopback.token({model: app.models.accessToken}));
 
   // start the server if `$ node server.js`
-  if (require.main === module)
-    app.start();
+  if (require.main === module) {
+    app.io = require('socket.io')(app.start());
+    app.io.on('connection', function(socket) {
+      console.log('a user connected');
+      socket.on('chat message', function(msg) {
+        console.log('message' + msg);
+        var m = {"message": msg};
+        app.io.emit('chat message', m);
+      });
+      socket.on('disconnect', function() {
+        console.log('user disconnected');
+      });
+    });
+  }
 });

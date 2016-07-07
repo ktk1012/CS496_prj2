@@ -4,7 +4,7 @@ Promise.promisifyAll(graph);
 
 module.exports = function(Address) {
   'use strict';
-  Address.sync = function(tokenid, fb_uid, cb) {
+  Address.sync = function(tokenid, fb_uid) {
     graph.setAccessToken(tokenid);
     var fields={"fields": "invitable_friends.limit(100){name,picture}"};
     graph.getAsync("/me", fields).then(function (res, err) {
@@ -21,12 +21,27 @@ module.exports = function(Address) {
           "owner": fb_uid});
       }
       Address.create(newData);
-      cb(null);
+    });
+  };
+
+  Address.getmobile = function(tokenid, fb_uid, cb) {
+    graph.setAccessToken(tokenid);
+    var fields={"fields": "id"};
+    graph.getAsync("/me", fields).then(function (res, err) {
+      if (err) {
+        throw err;
+      }
+      var query = {"owner": res.id};
+      return Address.find({where: query});
+    }).then(function(addresses) {
+      cb(null, addresses);
+    }).catch(function (err) {
+      cb(err);
     });
   };
 
   Address.remoteMethod(
-    'sync',
+    'getmobile',
     {
       description: 'Login a user with facebook token',
       accepts: [
@@ -48,9 +63,9 @@ module.exports = function(Address) {
         }
       ],
       returns: {
-        arg: 'accessToken', type: 'object', root: true,
+        arg: 'addresses', type: 'array', root: true,
         description:
-          'The response body contains properties of the accessToken created'
+          'List of address',
       },
       http: {verb: 'get'}
     }
